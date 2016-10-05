@@ -20,3 +20,13 @@
 # Rules for QCOM targets
 include $(TOPDIR)vendor/extras/build/core/qcom_target.mk
 include $(TOPDIR)vendor/extras/build/core/qcom_utils.mk
+
+
+# Filter out duplicates
+define uniq__dx
+  $(eval seen :=)
+  $(foreach _,$1,$(if $(filter $_,${seen}),,$(eval seen += $_)))
+  ${seen}
+endef
+
+PRODUCT_BOOT_JARS := $(call uniq__dx,$(subst $(space), ,$(strip $(PRODUCT_BOOT_JARS))))
