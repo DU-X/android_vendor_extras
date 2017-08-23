@@ -1,0 +1,7 @@
+bootstrap_go_package {
+    name: "soong-dirty",
+    pkgPath: "dirty/soong/android",
+    srcs: [
+        "android/variable.go",
+    ],
+}
