@@ -9,6 +9,7 @@ $(call add_json_bool,	Supports_hw_fde,							$(filter true,$(TARGET_HW_DISK_ENCR
 $(call add_json_bool,	Supports_hw_fde_perf,						$(filter true,$(TARGET_HW_DISK_ENCRYPTION_PERF)))
 $(call add_json_bool,	Supports_legacy_hw_fde,						$(filter true,$(TARGET_LEGACY_HW_DISK_ENCRYPTION)))
 $(call add_json_bool,	Uses_generic_camera_parameter_library,		$(if $(TARGET_SPECIFIC_CAMERA_PARAMETER_LIBRARY),,true))
+$(call add_json_bool,	Uses_qti_camera_device,						$(filter true,$(TARGET_USES_QTI_CAMERA_DEVICE)))
 
 $(call add_json_str_omitempty,	Additional_gralloc_10_usage_bits, 	$(TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS))
 
