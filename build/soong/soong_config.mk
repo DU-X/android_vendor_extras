@@ -18,6 +18,7 @@ $(call add_json_bool,   Uses_qcom_um_4_9_family, 				    $(filter true,$(TARGET_
 $(call add_json_bool,   Uses_qcom_um_4_14_family, 				    $(filter true,$(TARGET_USES_QCOM_UM_4_14_FAMILY)))
 
 $(call add_json_str_omitempty,	Additional_gralloc_10_usage_bits,	$(TARGET_ADDITIONAL_GRALLOC_10_USAGE_BITS))
+$(call add_json_str_omitempty, Target_process_sdk_version_override, $(TARGET_PROCESS_SDK_VERSION_OVERRIDE))
 
 $(call add_json_val_default, Bootloader_message_offset,				$(BOOTLOADER_MESSAGE_OFFSET), 0)
 
