@@ -39,6 +39,10 @@ type Product_variables struct {
 		Cppflags []string
 	}
 
+	Bootloader_message_offset struct {
+		Cflags []string
+	}
+
 	Target_shim_libs struct {
 		Cppflags []string
 	}
@@ -82,6 +86,7 @@ type ProductVariables struct {
 	Uses_qcom_um_4_4_family					*bool `json:",omitempty"`
 	Uses_qcom_um_4_9_family					*bool `json:",omitempty"`
 	Uses_qcom_um_4_14_family				*bool `json:",omitempty"`
+	Bootloader_message_offset				*int `json:",omitempty"`
 	Additional_gralloc_10_usage_bits	 	*string `json:",omitempty"`
 	QTIAudioPath						    *string `json:",omitempty"`
 	QTIDisplayPath						    *string `json:",omitempty"`
