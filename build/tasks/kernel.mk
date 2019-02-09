@@ -211,37 +211,37 @@ $(KERNEL_CONFIG): $(KERNEL_DEFCONFIG_SRC) $(KERNEL_ADDITIONAL_CONFIG_OUT)
 
 .PHONY: TARGET_KERNEL_BINARIES
 TARGET_KERNEL_BINARIES: $(KERNEL_CONFIG)
-    @echo "Building Kernel"
-    $(hide) rm -rf $(KERNEL_MODULES_OUT)
-    $(hide) mkdir -p $(KERNEL_MODULES_OUT)
-    $(hide) rm -rf $(KERNEL_DEPMOD_STAGING_DIR)
-    $(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) $(BOARD_KERNEL_IMAGE_NAME)
-    $(hide) if grep -q '^CONFIG_OF=y' $(KERNEL_CONFIG); then \
-            echo "Building DTBs"; \
-            $(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) dtbs; \
-        fi
-    $(hide) if grep -q '^CONFIG_MODULES=y' $(KERNEL_CONFIG); then \
-            echo "Building Kernel Modules"; \
-            $(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) modules; \
-        fi
+	@echo "Building Kernel"
+	$(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) $(BOARD_KERNEL_IMAGE_NAME)
+	$(hide) if grep -q '^CONFIG_OF=y' $(KERNEL_CONFIG); then \
+			echo "Building DTBs"; \
+			$(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) dtbs; \
+		fi
+	$(hide) if grep -q '^CONFIG_MODULES=y' $(KERNEL_CONFIG); then \
+			echo "Building Kernel Modules"; \
+			$(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) modules; \
+		fi
 
 .PHONY: INSTALLED_KERNEL_MODULES
 INSTALLED_KERNEL_MODULES: depmod-host
-    $(hide) if grep -q '^CONFIG_MODULES=y' $(KERNEL_CONFIG); then \
-            echo "Installing Kernel Modules"; \
-            $(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) modules_install && \
-            mofile=$$(find $(KERNEL_MODULES_OUT) -type f -name modules.order) && \
-            mpath=$$(dirname $$mofile) && \
-            for f in $$(find $$mpath/kernel -type f -name '*.ko'); do \
-                $(KERNEL_TOOLCHAIN_PATH)strip --strip-unneeded $$f; \
-                mv $$f $(KERNEL_MODULES_OUT); \
-            done && \
-            rm -rf $$mpath && \
-            mkdir -p $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules && \
-            find $(KERNEL_MODULES_OUT) -name *.ko -exec cp {} $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules \; && \
-            $(DEPMOD) -b $(KERNEL_DEPMOD_STAGING_DIR) 0.0 && \
-            sed -e 's/\(.*modules.*\):/\/\1:/g' -e 's/ \([^ ]*modules[^ ]*\)/ \/\1/g' $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/modules.dep > $(KERNEL_MODULES_OUT)/modules.dep; \
-        fi
+	$(hide) rm -rf $(KERNEL_MODULES_OUT)
+	$(hide) mkdir -p $(KERNEL_MODULES_OUT)
+	$(hide) rm -rf $(KERNEL_DEPMOD_STAGING_DIR)
+	$(hide) if grep -q '^CONFIG_MODULES=y' $(KERNEL_CONFIG); then \
+			echo "Installing Kernel Modules"; \
+			$(PATH_OVERRIDE) $(MAKE) $(KERNEL_MAKE_FLAGS) -C $(KERNEL_SRC) O=$(KERNEL_OUT) ARCH=$(KERNEL_ARCH) $(KERNEL_CROSS_COMPILE) $(KERNEL_CLANG_TRIPLE) $(KERNEL_CC) INSTALL_MOD_PATH=../../$(KERNEL_MODULES_INSTALL) modules_install && \
+			mofile=$$(find $(KERNEL_MODULES_OUT) -type f -name modules.order) && \
+			mpath=$$(dirname $$mofile) && \
+			for f in $$(find $$mpath/kernel -type f -name '*.ko'); do \
+				$(KERNEL_TOOLCHAIN_PATH)strip --strip-unneeded $$f; \
+				mv $$f $(KERNEL_MODULES_OUT); \
+			done && \
+			rm -rf $$mpath && \
+			mkdir -p $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules && \
+			find $(KERNEL_MODULES_OUT) -name *.ko -exec cp {} $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/$(KERNEL_MODULE_MOUNTPOINT)/lib/modules \; && \
+			$(DEPMOD) -b $(KERNEL_DEPMOD_STAGING_DIR) 0.0 && \
+			sed -e 's/\(.*modules.*\):/\/\1:/g' -e 's/ \([^ ]*modules[^ ]*\)/ \/\1/g' $(KERNEL_DEPMOD_STAGING_DIR)/lib/modules/0.0/modules.dep > $(KERNEL_MODULES_OUT)/modules.dep; \
+		fi
 
 $(TARGET_KERNEL_MODULES): TARGET_KERNEL_BINARIES
 
