@@ -1,4 +1,3 @@
-
 # Copyright (C) 2012 The CyanogenMod Project
 #           (C) 2017 The LineageOS Project
 #
@@ -244,15 +243,15 @@ TARGET_KERNEL_BINARIES: $(KERNEL_CONFIG)
 
 .PHONY: INSTALLED_KERNEL_MODULES
 INSTALLED_KERNEL_MODULES: depmod-host
-    $(hide) if grep -q '=m' $(KERNEL_CONFIG); then \
-            echo "Installing Kernel Modules"; \
-            $(call make-kernel-target,INSTALL_MOD_PATH=$(MODULES_INTERMEDIATES) modules_install); \
-            modules=$$(find $(MODULES_INTERMEDIATES) -type f -name '*.ko'); \
-            for f in $$modules; do \
-                $(KERNEL_TOOLCHAIN_PATH)strip --strip-unneeded $$f; \
-            done; \
-            ($(call build-image-kernel-modules,$$modules,$(KERNEL_MODULES_OUT),$(KERNEL_MODULE_MOUNTPOINT),$(KERNEL_DEPMOD_STAGING_DIR))); \
-        fi
+	$(hide) if grep -q '=m' $(KERNEL_CONFIG); then \
+			echo "Installing Kernel Modules"; \
+			$(call make-kernel-target,INSTALL_MOD_PATH=$(MODULES_INTERMEDIATES) modules_install); \
+			modules=$$(find $(MODULES_INTERMEDIATES) -type f -name '*.ko'); \
+			for f in $$modules; do \
+				$(KERNEL_TOOLCHAIN_PATH)strip --strip-unneeded $$f; \
+			done; \
+			($(call build-image-kernel-modules,$$modules,$(KERNEL_MODULES_OUT),$(KERNEL_MODULE_MOUNTPOINT)/,$(KERNEL_DEPMOD_STAGING_DIR))); \
+		fi
 
 $(TARGET_KERNEL_MODULES): TARGET_KERNEL_BINARIES
 
