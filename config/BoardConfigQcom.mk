@@ -107,9 +107,11 @@ else ifneq ($(filter $(UM_4_9_FAMILY),$(QCOM_HARDWARE_VARIANT)),)
 else ifneq ($(filter $(UM_4_14_FAMILY),$(QCOM_HARDWARE_VARIANT)),)
     TARGET_USES_QCOM_UM_FAMILY := true
     TARGET_USES_QCOM_UM_4_14_FAMILY := true
-endif
 
 PRODUCT_SOONG_NAMESPACES += \
-  hardware/qcom/audio-caf/$(QCOM_HARDWARE_VARIANT) \
-  hardware/qcom/display-caf/$(QCOM_HARDWARE_VARIANT) \
-  hardware/qcom/media-caf/$(QCOM_HARDWARE_VARIANT)
+    hardware/qcom-caf/$(QCOM_HARDWARE_VARIANT)
+
+# QCOM HW crypto
+ifeq ($(TARGET_HW_DISK_ENCRYPTION),true)
+    TARGET_CRYPTFS_HW_PATH ?= vendor/qcom/opensource/cryptfs_hw
+endif
