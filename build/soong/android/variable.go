@@ -33,6 +33,9 @@ type Product_variables struct {
 	Bootloader_message_offset struct {
 		Cflags []string
 	}
+	Target_init_vendor_lib struct {
+		Whole_static_libs []string
+	}
 	Target_process_sdk_version_override struct {
 		Cppflags []string
 	}
@@ -85,6 +88,7 @@ type ProductVariables struct {
 	QTIDisplayPath						    *string `json:",omitempty"`
 	QTIMediaPath						    *string `json:",omitempty"`
 	Specific_camera_parameter_library		*string `json:",omitempty"`
+	Target_init_vendor_lib                  *string `json:",omitempty"`
 	Target_process_sdk_version_override     *string `json:",omitempty"`
 	Target_shim_libs					    *string `json:",omitempty"`
 }
