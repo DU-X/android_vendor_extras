@@ -19,3 +19,4 @@
 
 # Rules for QCOM targets
 include $(TOPDIR)vendor/extras/build/core/qcom_target.mk
+include $(TOPDIR)vendor/extras/build/core/qcom_utils.mk
