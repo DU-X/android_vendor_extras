@@ -40,7 +40,7 @@ except:
     device = product
 
 if not depsonly:
-    print "Device %s not found. Attempting to retrieve device repository from DU Github (http://github.com/DirtyUnicorns)." % device
+    print "Device %s not found. Attempting to retrieve device repository from DU Github (http://github.com/DU-X)." % device
 
 repositories = []
 
@@ -59,7 +59,7 @@ gapps_branch = 'p9x'
 
 page = 1
 while not depsonly:
-    request = Request("https://api.github.com/users/DirtyUnicorns/repos?page=%d" % page)
+    request = Request("https://api.github.com/users/DU-X/repos?page=%d" % page)
     api_file = os.getenv("HOME") + '/api_token'
     if (os.path.isfile(api_file)):
         infile = open(api_file, 'r')
@@ -156,7 +156,7 @@ def add_to_manifest_dependencies(repositories):
                 print 'Updating dependency %s' % (repo_name)
                 existing_project.set('name', repository['repository'])
             if existing_project.attrib['revision'] == repository['branch']:
-                print 'DirtyUnicorns/%s already exists' % (repo_name)
+                print 'DU-X/%s already exists' % (repo_name)
             else:
                 print 'updating branch for %s to %s' % (repo_name, repository['branch'])
                 existing_project.set('revision', repository['branch'])
@@ -192,15 +192,15 @@ def add_to_manifest(repositories):
         existing_project = exists_in_tree_device(lm, repo_name)
         if existing_project != None:
             if existing_project.attrib['revision'] == repository['branch']:
-                print 'DirtyUnicorns/%s already exists' % (repo_name)
+                print 'DU-X/%s already exists' % (repo_name)
             else:
-                print 'updating branch for DirtyUnicorns/%s to %s' % (repo_name, repository['branch'])
+                print 'updating branch for DU-X/%s to %s' % (repo_name, repository['branch'])
                 existing_project.set('revision', repository['branch'])
             continue
 
-        print 'Adding dependency: DirtyUnicorns/%s -> %s' % (repo_name, repo_target)
+        print 'Adding dependency: DU-X/%s -> %s' % (repo_name, repo_target)
         project = ElementTree.Element("project", attrib = { "path": repo_target,
-            "remote": "github", "name": "DirtyUnicorns/%s" % repo_name, "revision": du_branch })
+            "remote": "github", "name": "DU-X/%s" % repo_name, "revision": du_branch })
 
         if 'branch' in repository:
             project.set('revision', repository['branch'])
