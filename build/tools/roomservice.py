@@ -47,9 +47,9 @@ repositories = []
 # repo check
 branch_check = r'external/bson'
 if os.path.exists(branch_check):
-    du_branch = "p9x-caf";
+    du_branch = "q10x-caf";
 else:
-    du_branch = "p9x";
+    du_branch = "q10x";
 
 # gapps
 repo_check = r'vendor/pixelgapps'
