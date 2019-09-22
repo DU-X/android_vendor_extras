@@ -63,4 +63,3 @@ dtimage: $(INSTALLED_DTIMAGE_TARGET)
 
 endif
 endif
-endif
