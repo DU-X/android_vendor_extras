@@ -272,9 +272,9 @@ alldefconfig: $(KERNEL_OUT)
 ifeq ($(TARGET_NEEDS_DTBOIMAGE),true)
 BOARD_PREBUILT_DTBOIMAGE = $(PRODUCT_OUT)/dtbo/arch/$(KERNEL_ARCH)/boot/dtbo.img
 $(BOARD_PREBUILT_DTBOIMAGE):
-    echo -e ${CL_GRN}"Building DTBO.img"${CL_RST}
-    $(call make-dtbo-target,$(KERNEL_DEFCONFIG))
-    $(call make-dtbo-target,dtbo.img)
+	echo -e ${CL_GRN}"Building DTBO.img"${CL_RST}
+	$(call make-dtbo-target,$(KERNEL_DEFCONFIG))
+	$(call make-dtbo-target,dtbo.img)
 endif # TARGET_NEEDS_DTBOIMAGE
 
 endif # FULL_KERNEL_BUILD
@@ -285,7 +285,7 @@ ifeq ($(NEEDS_KERNEL_COPY),true)
 file := $(INSTALLED_KERNEL_TARGET)
 ALL_PREBUILT += $(file)
 $(file) : $(KERNEL_BIN) | $(ACP)
-    $(transform-prebuilt-to-target)
+	$(transform-prebuilt-to-target)
 
 ALL_PREBUILT += $(INSTALLED_KERNEL_TARGET)
 endif
